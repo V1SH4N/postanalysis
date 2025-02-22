@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Baadshah</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+    <script src="./encrypt.js" defer></script>
+</head>
+<body>
+    <div id="login"> 
+        <form id="passwordForm">
+            <input type="password" id="password" placeholder="Enter password" required>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    
+    <div id="main" style="display: none;">
+        <form id="receiptForm">
+            <input type="tel" pattern="[0-9]*" inputmode="numeric" id="amount" placeholder="Enter amount" required>
+            <input type="tel" pattern="[0-9]*" inputmode="numeric" id="number" placeholder="Enter number" required>
+            <button type="submit" id="submitBtn">Generate Receipt</button>
+        </form>
+        <canvas id="receiptCanvas" width="828" height="1792"></canvas>
+        <button id="downloadBtn" style="display:none;">Download Image</button>
+    </div>
+</body>
+</html>
