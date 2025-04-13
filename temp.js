@@ -43,7 +43,6 @@ function drawReceipt(totalAmount, number, date, time) {
     ctx.fillRect(32, 400, canvas.width - 64, canvas.height - 40);
 
     // Texts
-    Text
     document.fonts.load("31px Lato").then(() => {
 
         ctx.font = "600 34px Arial";
@@ -66,11 +65,6 @@ function drawReceipt(totalAmount, number, date, time) {
         ctx.fillText("Date", 65, 835);
     });
 
-    //1 sec time loop to allow image to fully load
-    setInterval(() => {
-        console.log("generating image...");
-      }, 1000);
-      
     //resize image if required
     const resizeCheck = document.getElementById('resize');
     if (resizeCheck.checked){
@@ -118,8 +112,7 @@ function resizeImage(img, canvas) {
     canvas.height = cropHeight;
 
     // Step 5: Draw cropped portion to canvas
-    ctx.drawImage(
-        img,
+    ctx.drawImage(img,
         cropX, cropY, cropWidth, cropHeight, // source
         0, 0, cropWidth, cropHeight          // destination
     );
