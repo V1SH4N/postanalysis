@@ -70,49 +70,52 @@ function drawReceipt(totalAmount, number, date, time) {
     const resizeCheck = document.getElementById('resize');
     if (resizeCheck.checked){
         resizeImage(canvas);
-        console.log('checked');
     }
-
     downloadBtn.style.display = 'block';
     
 }
 
 function resizeImage(canvas) {
-    const screenRatio = window.innerWidth / window.innerHeight;
-    const canvasRatio = canvas.width / canvas.height;
+    const ctx = canvas.getContext('2d');
 
-    let cropWidth, cropHeight;
+    const screenWidth = screen.width;
+    const screenHeight = screen.height;
+    const screenAspect = screenWidth / screenHeight;
 
-    if (screenRatio > canvasRatio) {
-        // Screen is wider than canvas, crop vertically
-        cropHeight = canvas.width / screenRatio;
-        cropWidth = canvas.width;
-    } else {
-        // Screen is taller than canvas, crop horizontally
-        cropWidth = canvas.height * screenRatio;
-        cropHeight = canvas.height;
+    const imageWidth = canvas.width;
+    const imageHeight = canvas.height;
+    const imageAspect = imageWidth / imageHeight;
+
+    let sx = 0, sy = 0, sw = imageWidth, sh = imageHeight;
+
+    // Determine crop area to match screen aspect ratio
+    if (imageAspect > screenAspect) {
+        // Crop left and right sides
+        const targetWidth = imageHeight * screenAspect;
+        sx = (imageWidth - targetWidth) / 2;
+        sw = targetWidth;
+    } else if (imageAspect < screenAspect) {
+        // Crop top and bottom
+        const targetHeight = imageWidth / screenAspect;
+        sy = (imageHeight - targetHeight) / 2;
+        sh = targetHeight;
     }
 
-    // Calculate top-left coordinates to center the cropped area
-    const sx = (canvas.width - cropWidth) / 2;
-    const sy = (canvas.height - cropHeight) / 2;
+    // Get the cropped image data
+    const croppedImageData = ctx.getImageData(sx, sy, sw, sh);
 
-    // Create a temporary canvas to hold the cropped image
-    const tempCanvas = document.createElement('canvas');
-    tempCanvas.width = cropWidth;
-    tempCanvas.height = cropHeight;
-    const tempCtx = tempCanvas.getContext('2d');
-
-    // Draw the cropped portion onto the temporary canvas
-    tempCtx.drawImage(canvas, sx, sy, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
-
-    // Resize the original canvas and draw the result back
-    canvas.width = cropWidth;
-    canvas.height = cropHeight;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(tempCanvas, 0, 0);
+    // Resize canvas to screen size and draw cropped image scaled to fit
+    canvas.width = screenWidth;
+    canvas.height = screenHeight;
+    ctx.clearRect(0, 0, screenWidth, screenHeight);
+    ctx.drawImage(
+        createImageFromData(croppedImageData),
+        0, 0, sw, sh, // source
+        0, 0, screenWidth, screenHeight // destination
+    );
 }
 
+  
 
 
 
