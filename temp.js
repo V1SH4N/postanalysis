@@ -22,29 +22,33 @@ function getFormattedDate() {
 
 function drawReceipt(totalAmount, number, date, time) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Load images
-    const top = new Image();
-    top.src = './images/top.png'; 
-    top.onload = function() {
+
+    const loadImage = (src) => {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.src = src;
+            img.onload = () => resolve(img);
+        });
+    };
+
+    const waitForFonts = () => document.fonts.load("31px Lato");
+
+    Promise.all([
+        loadImage('./images/top.png'),
+        loadImage('./images/bottom.png'),
+        waitForFonts()
+    ]).then(([top, bottom]) => {
+        // Background
+        ctx.fillStyle = "#f9f9f9";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#dce8f4";
+        ctx.fillRect(32, 400, canvas.width - 64, canvas.height - 40);
+
+        // Draw Images
         ctx.drawImage(top, 0, 0);
-    };
-
-    const bottom = new Image();
-    bottom.src = './images/bottom.png';
-    bottom.onload = function() {
         ctx.drawImage(bottom, 0, 887);
-    };
 
-    // Background
-    ctx.fillStyle = "#f9f9f9";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#dce8f4";
-    ctx.fillRect(32, 400, canvas.width - 64, canvas.height - 40);
-
-    // Texts
-    document.fonts.load("31px Lato").then(() => {
-
+        // Draw Text
         ctx.font = "600 34px Arial";
         ctx.fillStyle = "black";
         ctx.fillText(time, 60, 60);
@@ -57,25 +61,25 @@ function drawReceipt(totalAmount, number, date, time) {
         ctx.fillText("FT25030MK37K", 65, 770);
         ctx.fillText(date, 65, 880);
 
-        ctx.font = " 27px Lato";
-        ctx.fillStyle = "#4c555c"
+        ctx.font = "27px Lato";
+        ctx.fillStyle = "#4c555c";
         ctx.fillText("Beneficiary", 65, 502);
         ctx.fillText("From", 65, 613);
         ctx.fillText("Transaction reference", 65, 724);
         ctx.fillText("Date", 65, 835);
-    });
 
-    //resize image if required
-    const resizeCheck = document.getElementById('resize');
-    if (resizeCheck.checked){
-        const tempImg = new Image();
-        tempImg.src = canvas.toDataURL();
-        tempImg.onload = () => resizeImage(tempImg, canvas);
-        
-    }
-    downloadBtn.style.display = 'block';
-    
+        // Now, check for resizing
+        const resizeCheck = document.getElementById('resize');
+        if (resizeCheck.checked) {
+            const tempImg = new Image();
+            tempImg.src = canvas.toDataURL();
+            tempImg.onload = () => resizeImage(tempImg, canvas);
+        }
+
+        downloadBtn.style.display = 'block';
+    });
 }
+
 
 function resizeImage(img, canvas) {
     const ctx = canvas.getContext('2d');
