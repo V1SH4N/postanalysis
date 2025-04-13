@@ -18,6 +18,11 @@ form {
     flex-direction: column;
     gap: 10px;
 }
+
+#resizeCheck{
+    text-align: left;
+}
+
 form label {
     font-size: 16px;
     text-align: left;
