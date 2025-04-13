@@ -33,7 +33,7 @@ function drawReceipt(totalAmount, number, date, time) {
     const bottom = new Image();
     bottom.src = './images/bottom.png';
     bottom.onload = function() {
-        ctx.drawImage(bottom,0 , 887);
+        ctx.drawImage(bottom, 0, 887);
     };
 
     // Background
@@ -66,56 +66,66 @@ function drawReceipt(totalAmount, number, date, time) {
         ctx.fillText("Date", 65, 835);
     });
 
+    //1 sec time loop to allow image to fully load
+    setInterval(() => {
+        console.log("generating image...");
+      }, 1000);
+      
     //resize image if required
     const resizeCheck = document.getElementById('resize');
     if (resizeCheck.checked){
-        resizeImage(canvas);
+        const tempImg = new Image();
+        tempImg.src = canvas.toDataURL();
+        tempImg.onload = () => resizeImage(tempImg, canvas);
+        
     }
     downloadBtn.style.display = 'block';
     
 }
 
-function resizeImage(canvas) {
+function resizeImage(img, canvas) {
     const ctx = canvas.getContext('2d');
 
+    // Fixed canvas image dimensions
+    const imageWidth = 828;
+    const imageHeight = 1792;
+    const imageAspect = imageWidth / imageHeight;
+
+    // Step 1: Get screen aspect ratio
     const screenWidth = screen.width;
     const screenHeight = screen.height;
     const screenAspect = screenWidth / screenHeight;
 
-    const imageWidth = canvas.width;
-    const imageHeight = canvas.height;
-    const imageAspect = imageWidth / imageHeight;
+    let cropWidth, cropHeight;
 
-    let sx = 0, sy = 0, sw = imageWidth, sh = imageHeight;
-
-    // Determine crop area to match screen aspect ratio
-    if (imageAspect > screenAspect) {
-        // Crop left and right sides
-        const targetWidth = imageHeight * screenAspect;
-        sx = (imageWidth - targetWidth) / 2;
-        sw = targetWidth;
-    } else if (imageAspect < screenAspect) {
-        // Crop top and bottom
-        const targetHeight = imageWidth / screenAspect;
-        sy = (imageHeight - targetHeight) / 2;
-        sh = targetHeight;
+    // Step 2: Calculate crop size based on screen aspect
+    if (screenAspect > imageAspect) {
+        // Screen is wider than the image -> limit by width
+        cropWidth = imageWidth;
+        cropHeight = imageWidth / screenAspect;
+    } else {
+        // Screen is taller or same aspect -> limit by height
+        cropHeight = imageHeight;
+        cropWidth = imageHeight * screenAspect;
     }
 
-    // Get the cropped image data
-    const croppedImageData = ctx.getImageData(sx, sy, sw, sh);
+    // Step 3: Center crop coordinates
+    const cropX = (imageWidth - cropWidth) / 2;
+    const cropY = (imageHeight - cropHeight) / 2;
 
-    // Resize canvas to screen size and draw cropped image scaled to fit
-    canvas.width = screenWidth;
-    canvas.height = screenHeight;
-    ctx.clearRect(0, 0, screenWidth, screenHeight);
+    // Step 4: Resize canvas to cropped size
+    canvas.width = cropWidth;
+    canvas.height = cropHeight;
+
+    // Step 5: Draw cropped portion to canvas
     ctx.drawImage(
-        createImageFromData(croppedImageData),
-        0, 0, sw, sh, // source
-        0, 0, screenWidth, screenHeight // destination
+        img,
+        cropX, cropY, cropWidth, cropHeight, // source
+        0, 0, cropWidth, cropHeight          // destination
     );
 }
 
-  
+
 
 
 
