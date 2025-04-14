@@ -86,8 +86,9 @@ function resizeImage(canvas) {
     const imageHeight = 1792;
     const imageAspect = imageWidth / imageHeight;
 
-    let screenWidth = screen.width;
-    let screenHeight = screen.height;
+    let screenWidth = window.visualViewport ? window.visualViewport.width : window.innerWidth;
+    let screenHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    
     let screenAspect = screenWidth / screenHeight;
 
     let cropX, cropY, cropWidth, cropHeight;
