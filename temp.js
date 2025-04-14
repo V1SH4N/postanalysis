@@ -98,30 +98,16 @@ function resizeImage(canvas) {
 
     if (screenAspect > imageAspect){
         // fixed width
-        // cropWidth = imageWidth;
-        // const tempHeight = 828 * (1 / screenAspect);//same aspect ratio of screen but same resolution of image
-        // const difference = (1792 - tempHeight) / 2;
-        // cropHeight = 1792 - (difference * 2);
-        // cropX = 0;
-        // cropY = difference;
-
         cropWidth = imageWidth;
-        cropHeight = imageWidth / screenAspect; // correct height for screen ratio
+        cropHeight = Math.round(imageWidth / screenAspect); 
         cropX = 0;
-        cropY = (imageHeight - cropHeight) / 2;
+        cropY = Math.round((imageHeight - cropHeight) / 2);
 
     }else{
         // fixed height
-        // cropHeight = 1792;
-        // const tempHeight = 828 * (1 / screenAspect);//same aspect ratio of screen but same resolution of image
-        // const difference = (tempHeight - cropHeight) / 2;
-        // cropWidth = 828 - (difference * 2);
-        // cropX = difference;
-        // cropY = difference;
-
         cropHeight = imageHeight;
-        cropWidth = imageHeight * screenAspect; // Maintain screen aspect ratio
-        cropX = (imageWidth - cropWidth) / 2;
+        cropWidth = Math.round(imageHeight * screenAspect); // Maintain screen aspect ratio
+        cropX = Math.round((imageWidth - cropWidth) / 2);
         cropY = 0;
     }
     const croppedCanvas = document.createElement("canvas");
