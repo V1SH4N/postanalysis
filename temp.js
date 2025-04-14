@@ -86,9 +86,8 @@ function resizeImage(canvas) {
     const imageHeight = 1792;
     const imageAspect = imageWidth / imageHeight;
 
-    let screenWidth = window.visualViewport ? window.visualViewport.width : window.innerWidth;
-    let screenHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-    
+    let screenWidth = screen.width;
+    let screenHeight = screen.height;
     let screenAspect = screenWidth / screenHeight;
 
     let cropX, cropY, cropWidth, cropHeight;
@@ -109,8 +108,8 @@ function resizeImage(canvas) {
         cropHeight = 1792;
         const tempHeight = 828 * (1 / screenAspect);//same aspect ratio of screen but same resolution of image
         const difference = (tempHeight - cropHeight) / 2;
-        cropWidth = 828 - (difference);
-        cropX = difference / 2;
+        cropWidth = 828 - (difference * 2);
+        cropX = difference;
         cropY = 0;
         
         // const mywidth = document.createElement('p')
