@@ -94,12 +94,12 @@ function resizeImage(canvas) {
 
     if (screenAspect > imageAspect){
         // fixed width
-        cropWidth = 828;
-        const tempHeight = 828 * (1 / screenAspect);//same aspect ratio of screen but same resolution of image
-        const difference = (1792 - tempHeight) / 2;
-        cropHeight = 1792 - (2 * difference);
-        cropX = 0;
-        cropY = difference / 2;
+        // cropWidth = 828;
+        // const tempHeight = 828 * (1 / screenAspect);//same aspect ratio of screen but same resolution of image
+        // const difference = (1792 - tempHeight) / 2;
+        // cropHeight = 1792 - (2 * difference);
+        // cropX = 0;
+        // cropY = difference / 2;
         // const myheight = document.createElement('p')
         // myheight.textContent = cropHeight;
         // document.body.appendChild(myheight);
