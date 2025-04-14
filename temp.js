@@ -90,28 +90,39 @@ function resizeImage(canvas) {
     let screenHeight = screen.height;
     let screenAspect = screenWidth / screenHeight;
 
-    const s = document.createElement('p');
-    s.textContent = '' + screenWidth +' ' + screenHeight;
-    document.body.appendChild(s);
+    // const s = document.createElement('p');
+    // s.textContent = '' + screenWidth +' ' + screenHeight;
+    // document.body.appendChild(s);
 
     let cropX, cropY, cropWidth, cropHeight;
 
     if (screenAspect > imageAspect){
         // fixed width
-        cropWidth = 828;
-        const tempHeight = 828 * (1 / screenAspect);//same aspect ratio of screen but same resolution of image
-        const difference = (1792 - tempHeight) / 2;
-        cropHeight = 1792 - (difference * 2);
+        // cropWidth = imageWidth;
+        // const tempHeight = 828 * (1 / screenAspect);//same aspect ratio of screen but same resolution of image
+        // const difference = (1792 - tempHeight) / 2;
+        // cropHeight = 1792 - (difference * 2);
+        // cropX = 0;
+        // cropY = difference;
+
+        cropWidth = imageWidth;
+        cropHeight = imageWidth / screenAspect; // correct height for screen ratio
         cropX = 0;
-        cropY = difference;
+        cropY = (imageHeight - cropHeight) / 2;
+
     }else{
         // fixed height
-        cropHeight = 1792;
-        const tempHeight = 828 * (1 / screenAspect);//same aspect ratio of screen but same resolution of image
-        const difference = (tempHeight - cropHeight) / 2;
-        cropWidth = 828 - (difference);
-        cropX = difference/2;
-        cropY = difference/2;
+        // cropHeight = 1792;
+        // const tempHeight = 828 * (1 / screenAspect);//same aspect ratio of screen but same resolution of image
+        // const difference = (tempHeight - cropHeight) / 2;
+        // cropWidth = 828 - (difference * 2);
+        // cropX = difference;
+        // cropY = difference;
+
+        cropHeight = imageHeight;
+        cropWidth = imageHeight * screenAspect; // Maintain screen aspect ratio
+        cropX = (imageWidth - cropWidth) / 2;
+        cropY = 0;
     }
     const croppedCanvas = document.createElement("canvas");
     croppedCanvas.width = cropWidth;
