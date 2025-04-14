@@ -110,7 +110,7 @@ function resizeImage(canvas) {
         const difference = (tempHeight - cropHeight) / 2;
         cropWidth = 828 - (difference * 2);
         cropX = difference;
-        cropY = 0;
+        cropY = difference;
         
         // const mywidth = document.createElement('p')
         // mywidth.textContent = cropWidth;
