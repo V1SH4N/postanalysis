@@ -94,27 +94,20 @@ function resizeImage(canvas) {
 
     if (screenAspect > imageAspect){
         // fixed width
-        // cropWidth = 828;
-        // const tempHeight = 828 * (1 / screenAspect);//same aspect ratio of screen but same resolution of image
-        // const difference = (1792 - tempHeight) / 2;
-        // cropHeight = 1792 - (2 * difference);
-        // cropX = 0;
-        // cropY = difference / 2;
-        // const myheight = document.createElement('p')
-        // myheight.textContent = cropHeight;
-        // document.body.appendChild(myheight);
+        cropWidth = 828;
+        const tempHeight = 828 * (1 / screenAspect);//same aspect ratio of screen but same resolution of image
+        const difference = (1792 - tempHeight) / 2;
+        cropHeight = 1792 - (difference * 2);
+        cropX = 0;
+        cropY = difference;
     }else{
         // fixed height
         cropHeight = 1792;
         const tempHeight = 828 * (1 / screenAspect);//same aspect ratio of screen but same resolution of image
         const difference = (tempHeight - cropHeight) / 2;
-        cropWidth = 828 - (difference * 2);
-        cropX = difference;
+        cropWidth = 828 - (difference);
+        cropX = difference/2;
         cropY = difference;
-        
-        // const mywidth = document.createElement('p')
-        // mywidth.textContent = cropWidth;
-        // document.body.appendChild(mywidth);
     }
     const croppedCanvas = document.createElement("canvas");
     croppedCanvas.width = cropWidth;
