@@ -91,7 +91,7 @@ function resizeImage(canvas) {
     let screenAspect = screenWidth / screenHeight;
 
     const s = document.createElement('p');
-    s.textContent = screenWidth;
+    s.textContent = '' + screenWidth +' ' + screenHeight;
     document.body.appendChild(s);
 
     let cropX, cropY, cropWidth, cropHeight;
