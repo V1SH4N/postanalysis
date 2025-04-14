@@ -107,7 +107,7 @@ function resizeImage(canvas) {
         const difference = (tempHeight - cropHeight) / 2;
         cropWidth = 828 - (difference);
         cropX = difference/2;
-        cropY = difference;
+        cropY = difference/2;
     }
     const croppedCanvas = document.createElement("canvas");
     croppedCanvas.width = cropWidth;
